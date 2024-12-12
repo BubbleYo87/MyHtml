@@ -1,0 +1,234 @@
+/* 通用樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    /*color: #333;*/
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #ffe3db, #f19393); /* 漸層背景 */
+}
+.container {
+    font-family: 'SFT', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 頁首樣式 */
+.header {
+    background: url("title.png");
+    padding: 10px 40px;
+    background-size: cover; /* 可選：使圖片覆蓋整個背景 */
+    background-position: center; /* 可選：讓圖片居中 */
+    position: fixed; /* 讓 header 固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease; /* 添加平滑動畫 */
+}
+
+.header.hidden {
+    transform: translateY(-50%); /* 隱藏時向上移出畫面 */
+}
+
+.header .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    font-family: 'SFT', sans-serif;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.nav a:hover {
+    color: #ff6347; /*滑鼠滑到標籤頁面會變色*/
+}
+
+/* 響應式導航選單 */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background: #fff;
+}
+
+.nav-toggle span {
+    width: 25px;
+    height: 3px;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #333;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .nav.active {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+}
+
+/* 各區塊樣式 */
+section {
+    padding: 40px 20px;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+h4 {
+    font-family: 'SFT', sans-serif;
+    font-size: 20px;
+}
+
+.about p {
+    text-align: center;
+    font-size: 1.5em;
+    padding-top: 20px; /* 根據 header 的高度調整 */
+}
+
+.portfolio-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+
+}
+
+.portfolio .item {
+    background: #b18181;    /*作品集框框顏色*/
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio .item img {
+    max-width: 100%;    /*圖片在框架中的百分比*/
+    border-radius: 5px; 
+    margin-bottom: 10px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form input, .contact-form textarea, .contact-form button {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #000000; /*聯絡框顏色*/ 
+    border-radius: 5px;
+}
+
+.contact-form button {
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.contact-form button:hover {
+    /*按鈕暗示顏色*/
+    background: #e28741;
+}
+
+/* 頁尾樣式 */
+.footer {
+    background: #f19393; /*頁腳顏色*/
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* 引入自定義字型 */
+@font-face {
+    font-family: 'SFT';
+    src: url('fonts/SFT.woff2') format('woff2'),
+         url('fonts/SFT.woff') format('woff'),
+         url('fonts/SFT.ttf') format('truetype');
+    font-weight: normal; /* 可選：定義字型權重 */
+    font-style: normal; /* 可選：定義字型樣式 */
+}
+
+/* 全局應用自定義字型 */
+body {
+    font-family: 'SFT', sans-serif !important; /* sans-serif 為備援字型 */
+    margin-top: 120px; /* 等於 header 的高度 */
+}
+
+T1 {
+    font-family: 'SFT', sans-serif;
+    font-size: 50px;
+    color: #ffffff;
+}
+T1A {
+    font-family: 'SFT', sans-serif;
+    font-size: 30px;
+    color: #0ea6e2;
+}
+
+.T2 {
+    margin-top: 90px;   /*間隔大小*/
+    font-family: 'SFT', sans-serif;
+    font-size: 40px;
+    color: rgb(80, 87, 156);
+    font-weight: bold;
+    margin-bottom: 20px; /* 與下方段落的間距 */
+    text-align: center;
+}
+
+.normalFONT {
+    font-family: 'SFT', sans-serif;
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    white-space: pre-line; /* 如果段落中有換行符，保留換行 */
+    text-align: center;
+    font-weight: bold;
+}
+FT {
+    font-family: 'SFT', sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+}
+.NT {
+    font-family: 'SFT', sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+}
