@@ -25,7 +25,7 @@ app.use(express.json());
 
 // 設置 MySQL 連接
 const db = mysql.createConnection({
-    host: '127.0.0.1', // 改為 IPv4 地址
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
