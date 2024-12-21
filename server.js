@@ -23,8 +23,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
 // 初始化 NeDB
 const db = new Datastore({ filename: 'portfolio_images.db', autoload: true });
+=======
+// 設置 MySQL 連接
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+});
+
+// 確保資料庫連接成功
+db.connect((err) => {
+    if (err) {
+        console.error('MySQL connection failed:', err);
+        throw err;
+    }
+    console.log('MySQL Connected...');
+});
+>>>>>>> e5d1ee2a70f84e5d8a9ac72d1b096f9f7829e0ab
 
 // 設置圖片上傳目錄
 const storage = multer.diskStorage({
