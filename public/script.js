@@ -83,28 +83,23 @@ document.querySelector("#scroll-button").addEventListener("click", () => {
 fetch('http://localhost:3000/images')
     .then((response) => response.json())
     .then((data) => {
-        const portfolioItems = document.querySelectorAll('.portfolio-items .item');
+        const portfolioContainer = document.querySelector('.portfolio-items');
+        portfolioContainer.innerHTML = ''; // 清空原有內容
 
-        // 替換每個佔位符的內容
+        // 動態生成每個作品項目
         data.forEach((item, index) => {
-            if (index < portfolioItems.length) {
-                const currentItem = portfolioItems[index];
-                const img = currentItem.querySelector('img');
-                const title = currentItem.querySelector('h3');
-                const description = currentItem.querySelector('h4');
-
-                // 更新內容
-                img.src = item.image_path;
-                img.alt = item.title;
-                title.textContent = item.title;
-                description.textContent = item.description;
-            }
+            console.log(`Rendering item ${index + 1}:`, item); // 打印每個元素的數據
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('item');
+            itemElement.innerHTML = `
+                <img src="${item.imagePath}" alt="${item.title}">
+                <h3 class="NT">${item.title}</h3>
+                <h4>${item.description}</h4>
+            `;
+            portfolioContainer.appendChild(itemElement);
         });
     })
     .catch((error) => console.error('Error loading images:', error));
-
-    
-
 
 
 
