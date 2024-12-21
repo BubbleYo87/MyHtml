@@ -80,7 +80,7 @@ document.querySelector("#scroll-button").addEventListener("click", () => {
 
 
 // 從 API 加載圖片數據並渲染到頁面
-fetch('http://localhost:3000/images')
+fetch('https://myhtml.onrender.com/images')
     .then((response) => response.json())
     .then((data) => {
         const portfolioContainer = document.querySelector('.portfolio-items');
