@@ -4,8 +4,9 @@ const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
-const nodemailer = require('nodemailer');
-const Datastore = require('nedb');
+const bodyParser = require('body-parser');
+const fileUpload = require("express-fileupload");
+const Datastore = require("nedb-promises");
 
 const app = express();
 const PORT = 3000;
@@ -16,103 +17,76 @@ if (!fs.existsSync('./uploads')) {
 }
 
 // 設置靜態檔案目錄
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// 啟用跨域和 JSON 解析
-app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({ defCharset: 'utf8', defParamCharset: 'utf8' }));
+app.use(cors());
 
-// 初始化 NeDB
-const db = new Datastore({ filename: 'portfolio_images.db', autoload: true });
-
-// 設置圖片上傳目錄
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    },
-});
-const upload = multer({ storage });
-
-// 處理根路徑請求，返回 index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// 初始化資料庫
+const ProfolioDB = Datastore.create(path.join(__dirname, "/profolio.db"));
+const ContactDB = Datastore.create({
+    filename: __dirname + "/contact.db",
+    autoload: true // 確保自動加載
 });
 
-// 上傳圖片並儲存到資料庫
-app.post('/upload', upload.single('image'), (req, res) => {
-    const { title, description } = req.body;
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
-    }
-    const imagePath = `/uploads/${req.file.filename}`;
+console.log("資料庫文件路徑:", __dirname + "/contact.db");
 
-    const imageData = {
-        title,
-        description,
-        imagePath,
-        uploadedAt: new Date(), // 儲存上傳時間
-    };
-
-    db.insert(imageData, (err, newDoc) => {
-        if (err) {
-            console.error('Failed to save image:', err);
-            return res.status(500).send('Failed to upload image.');
+// 路由：Profolio
+app.get("/profolio", async (req, res) => {
+    try {
+        const results = await ProfolioDB.find({});
+        if (results && results.length > 0) {
+            res.send(results);
+        } else {
+            res.send("No data available.");
         }
-        res.send({ success: true, message: 'Image uploaded and saved.', image: newDoc });
-    });
+    } catch (err) {
+        console.error("Error fetching profolio:", err);
+        res.status(500).send("Error fetching data.");
+    }
 });
 
-// 獲取所有圖片資料
-app.get('/images', (req, res) => {
-    db.find({})
-        .sort({ uploadedAt: 1 }) // 按時間正序排序
-        .exec((err, docs) => {
-            if (err) {
-                console.error('Failed to fetch images:', err);
-                return res.status(500).send('Failed to fetch images.');
-            }
-            res.json(docs);
-        });
-});
+// 中間件
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
-// 新增寄信 API
-app.post('/send', async (req, res) => {
+// 路由：處理表單提交
+app.post("/contact_me", async (req, res) => {
     const { name, email, message } = req.body;
 
     if (!name || !email || !message) {
-        return res.status(400).send({ error: '所有欄位都必須填寫' });
+        console.log("缺少必要欄位");
+        return res.status(400).send({ error: "請填寫所有必填欄位。" });
     }
+
+    const contactData = { name, email, message, submittedAt: new Date() };
+    console.log("準備寫入資料庫：", contactData);
 
     try {
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
+        const newDoc = await ContactDB.insert(contactData);
+        console.log("數據成功儲存:", newDoc);
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'hsuaihsien11@gmail.com',
-            subject: `新留言來自：${name}`,
-            text: `姓名: ${name}\n信箱: ${email}\n訊息: ${message}`,
-        };
+        // 使用新的壓縮方法
+        await ContactDB.compactDatafile();
+        console.log("資料已同步到 contact.db 文件");
 
-        await transporter.sendMail(mailOptions);
-        res.send({ success: true, message: '郵件已成功發送！' });
+        res.status(200).send({ success: true, message: "資料已成功儲存！", data: newDoc });
     } catch (error) {
-        console.error('郵件發送失敗:', error);
-        res.status(500).send({ error: '郵件發送失敗，請稍後再試。' });
+        console.error("儲存數據時發生錯誤：", error);
+        res.status(500).send({ error: "儲存訊息失敗，請稍後再試。" });
     }
 });
-
+// 查詢聯絡資料的數量
+app.get('/contact_count', async (req, res) => {
+    try {
+        const count = await ContactDB.count({}); // 使用 nedb-promises 查詢資料數量
+        res.status(200).send({ count });
+    } catch (error) {
+        console.error("Error counting contact data:", error);
+        res.status(500).send({ error: "無法查詢資料數量，請稍後再試。" });
+    }
+});
 
 
 // 啟動伺服器

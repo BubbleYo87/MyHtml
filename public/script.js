@@ -29,35 +29,31 @@ window.addEventListener('scroll', () => {
 });
 
 
-//伺服器資料
-document.getElementById('contactForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // 防止表單自動刷新
+document.getElementById('contactForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // 防止默認提交行為
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
 
-    try {
-        const response = await fetch('https://myhtml.onrender.com/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, message }),
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            alert('郵件已成功發送！');
-            document.getElementById('contactForm').reset();
+    fetch('/contact_me', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('聯絡資訊已成功送出！');
         } else {
-            alert(`錯誤: ${result.error}`);
+            alert('送出失敗，請稍後再試。');
         }
-    } catch (error) {
-        console.error('郵件發送失敗:', error);
-        alert('郵件發送失敗，請稍後再試。');
-    }
+    })
+    .catch(error => console.error('錯誤:', error));
 });
+
 
 document.addEventListener("scroll", () => {
     const portfolioSection = document.querySelector("#portfolio"); //點擊後
@@ -78,28 +74,28 @@ document.querySelector("#scroll-button").addEventListener("click", () => {
     window.location.href = './index2.html'; // 替換成資料夾中的目標檔案名稱
 });
 
-
-// 從 API 加載圖片數據並渲染到頁面
-fetch('https://myhtml.onrender.com/images')
-    .then((response) => response.json())
-    .then((data) => {
-        const portfolioContainer = document.querySelector('.portfolio-items');
-        portfolioContainer.innerHTML = ''; // 清空原有內容
-
-        // 動態生成每個作品項目
-        data.forEach((item, index) => {
-            console.log(`Rendering item ${index + 1}:`, item); // 打印每個元素的數據
-            const itemElement = document.createElement('div');
-            itemElement.classList.add('item');
-            itemElement.innerHTML = `
-                <img src="${item.imagePath}" alt="${item.title}">
-                <h3 class="NT">${item.title}</h3>
-                <h4>${item.description}</h4>
-            `;
-            portfolioContainer.appendChild(itemElement);
+// 查詢資料庫中的聯絡數量
+function updateContactCount() {
+    fetch('/contact_count')
+        .then(response => response.json())
+        .then(data => {
+            if (data.count !== undefined) {
+                document.getElementById('contact-count').textContent = 
+                    `目前已被 ${data.count} 位聯絡過`;
+            } else {
+                document.getElementById('contact-count').textContent = "無法查詢資料數量。";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching contact count:", error);
+            document.getElementById('contact-count').textContent = "查詢失敗，請稍後再試。";
         });
-    })
-    .catch((error) => console.error('Error loading images:', error));
+}
+
+// 在頁面加載後執行查詢
+document.addEventListener('DOMContentLoaded', updateContactCount);
+
+
 
 
 

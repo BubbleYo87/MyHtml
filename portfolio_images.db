@@ -1,3 +1,18 @@
-{"title":"作品名稱3","description":"這是我寫網站的第三天。","imagePath":"/uploads/03.gif","uploadedAt":{"date":1734799900000},"_id":"CXyWGmX4ZCk4sNvF"}
-{"title":"作品名稱2","description":"這是我寫網站的第二天。","imagePath":"/uploads/02.gif","uploadedAt":{"date":1734799800000},"_id":"dmVc7J9UagzbVqYh"}
-{"title":"作品名稱1","description":"這是我寫網站的第一天。","imagePath":"/uploads/01.png","uploadedAt":{"date":1734799700000},"_id":"rGhnS4HmEXLr5FFo"}
+{"title":"作品名稱 1","description":"這是我寫網站的第一天。","imagePath":"/uploads/01.png","uploadedAt":{"$$date":1735232531158},"_id":"6APUzZBhehNeucUI"}
+{"title":"作品名稱 2","description":"這是我寫網站的第二天。","imagePath":"/uploads/02.gif","uploadedAt":{"$$date":1735232531158},"_id":"EYMgyzvwoeAlTMhi"}
+{"title":"作品名稱 2","description":"這是我寫網站的第二天。","imagePath":"/uploads/02.gif","uploadedAt":{"$$date":1735232531158},"_id":"J7SI1kVFoLvqpjrw"}
+{"title":"作品名稱 3","description":"這是我寫網站的第三天。","imagePath":"/uploads/03.gif","uploadedAt":{"$$date":1735232531158},"_id":"WpkM6yXOxoAIZRLW"}
+{"title":"作品名稱 1","description":"這是我寫網站的第一天。","imagePath":"/uploads/01.png","uploadedAt":{"$$date":1735232531158},"_id":"f9yBcqSJBOzbGCVW"}
+{"title":"作品名稱 3","description":"這是我寫網站的第三天。","imagePath":"/uploads/03.gif","uploadedAt":{"$$date":1735232531158},"_id":"jPVJGdFGbYWWwsLe"}
+{"$$deleted":true,"_id":"6APUzZBhehNeucUI"}
+{"$$deleted":true,"_id":"EYMgyzvwoeAlTMhi"}
+{"$$deleted":true,"_id":"J7SI1kVFoLvqpjrw"}
+{"$$deleted":true,"_id":"WpkM6yXOxoAIZRLW"}
+{"$$deleted":true,"_id":"f9yBcqSJBOzbGCVW"}
+{"$$deleted":true,"_id":"jPVJGdFGbYWWwsLe"}
+{"title":"作品名稱 1","description":"這是我寫網站的第一天。","imagePath":"/uploads/01.png","uploadedAt":{"$$date":1735232563855},"_id":"mx77jZeMP9oo5jk7"}
+{"title":"作品名稱 2","description":"這是我寫網站的第二天。","imagePath":"/uploads/02.gif","uploadedAt":{"$$date":1735232563855},"_id":"CJjLEQOLfU3TaEls"}
+{"title":"作品名稱 3","description":"這是我寫網站的第三天。","imagePath":"/uploads/03.gif","uploadedAt":{"$$date":1735232563855},"_id":"w6AdJxhcnbPUlhBE"}
+{"title":"作品名稱 1","description":"這是我寫網站的第一天。","imagePath":"/uploads/01.png","uploadedAt":{"$$date":1735232563855},"_id":"Fd4gxSIe0uiu3TyD"}
+{"title":"作品名稱 2","description":"這是我寫網站的第二天。","imagePath":"/uploads/02.gif","uploadedAt":{"$$date":1735232563855},"_id":"zBpzymAYeQKNwgP8"}
+{"title":"作品名稱 3","description":"這是我寫網站的第三天。","imagePath":"/uploads/03.gif","uploadedAt":{"$$date":1735232563855},"_id":"t2gWBf02RmLWdjZI"}
