@@ -92,8 +92,59 @@ function updateContactCount() {
         });
 }
 
+
+const baseURL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000' 
+    : 'https://myhtml.onrender.com/images'; // 替換成你的 Render 應用 URL
+
 // 在頁面加載後執行查詢
 document.addEventListener('DOMContentLoaded', updateContactCount);
+
+fetch(`${baseURL}/profolio`)
+.then((response) => response.json())
+.then((data) => {
+    const portfolioContainer = document.querySelector('.portfolio-items');
+    portfolioContainer.innerHTML = ''; // 清空容器內容
+
+    data.forEach((item) => {
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('item');
+        itemElement.innerHTML = `
+            <img src="${item.imagePath}" alt="${item.title}">
+            <h3>${item.title}</h3>
+            <h4>${item.description}</h4>
+        `;
+        portfolioContainer.appendChild(itemElement);
+    });
+})
+.catch((error) => {
+    console.error('Error loading images:', error);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    // 獲取所有的圖片
+    const images = document.querySelectorAll(".parallax-png");
+
+    // 為每張圖片生成一個隨機的移動係數
+    const randomFactors = Array.from(images).map(() => ({
+        xFactor: Math.random() * 2 - 1, // 隨機生成 -1 到 1 的水平移動係數
+        yFactor: Math.random() * 1.5 + 0.3, // 隨機生成 0.3 到 1.8 的垂直移動係數
+    }));
+
+    // 監聽滾動事件
+    document.addEventListener("scroll", () => {
+        const scrollPosition = window.scrollY; // 獲取滾動的垂直位置
+
+        images.forEach((image, index) => {
+            const { xFactor, yFactor } = randomFactors[index]; // 獲取每張圖片的隨機係數
+
+            // 應用隨機移動效果
+            image.style.transform = `translate(${scrollPosition * xFactor}px, ${scrollPosition * yFactor}px)`;
+        });
+    });
+});
+
+
 
 
 
