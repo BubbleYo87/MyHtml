@@ -95,7 +95,7 @@ function updateContactCount() {
 
 const baseURL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3000' 
-    : 'https://myhtml.onrender.com/images'; // 替換成你的 Render 應用 URL
+    : 'https://myhtml.onrender.com'; // 替換成你的 Render 應用 URL
 
 // 在頁面加載後執行查詢
 document.addEventListener('DOMContentLoaded', updateContactCount);
