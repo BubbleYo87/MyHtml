@@ -110,7 +110,7 @@ fetch(`${baseURL}/profolio`)
         const itemElement = document.createElement('div');
         itemElement.classList.add('item');
         itemElement.innerHTML = `
-            <img src="${item.imagePath}" alt="${item.title}">
+            <img src="${item.imagePath}" alt="${item.title}" style="width: 300px; height: 300px;">
             <h3>${item.title}</h3>
             <h4>${item.description}</h4>
         `;
