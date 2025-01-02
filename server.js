@@ -105,8 +105,6 @@ app.get('/profolio', async (req, res) => {
 });
 
 
-
-
 // 中間件
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
